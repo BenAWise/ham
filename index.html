@@ -616,28 +616,6 @@ const questions = [
 { q: "Ham's best jam rank?", o: ["Top 10", "4th Place", "1st Place"], a: 2 }
 ];
 
-    function launchConfetti() {
-    const confetti = document.createElement('div');
-    confetti.innerText = '🎉';
-    confetti.style.position = 'fixed';
-    confetti.style.fontSize = '24px';
-    confetti.style.left = Math.random() * window.innerWidth + 'px';
-    confetti.style.top = '0';
-    confetti.style.pointerEvents = 'none';
-    confetti.style.zIndex = '9999';
-    document.body.appendChild(confetti);
-
-    let fall = 0;
-    const fallInterval = setInterval(() => {
-        fall += 5 + Math.random() * 5;
-        confetti.style.top = fall + 'px';
-        confetti.style.transform = `rotate(${Math.random()*360}deg)`;
-        if (fall > window.innerHeight) {
-            clearInterval(fallInterval);
-            confetti.remove();
-        }
-    }, 20);
-}
 
     
 let qIdx = 0;
@@ -645,7 +623,6 @@ function initQuiz() {
 const fb = document.getElementById('q-fb');
 fb.innerText = "";
 if (qIdx >= questions.length) {
-    launchConfetti();
     document.getElementById('quiz-box').innerHTML = "<p style='text-align:center;'>🏆 100% COMPLETE - THANKS FOR TAKING MY QUIZ!</p><button class='pixel-btn accent' style='width:100%; margin-top:15px;' onclick='location.reload()'>Restart</button>";
     document.getElementById('p-bar').style.width = "100%";
     return;
