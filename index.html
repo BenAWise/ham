@@ -1,656 +1,635 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
-   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='32' font-size='32'>🍖</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='32' font-size='32'>🍖</text></svg>">
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ham // gamedev</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+--bg: #f0f0f5;
+--text: #1a1a24;
+--card-bg: #ffffff;
+--primary: #6366f1;
+--accent: #ff5a7f;
+--border: #1a1a24;
+--grid: rgba(0, 0, 0, 0.25);
+--shadow: rgba(0, 0, 0, 0.1);
+}
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ham // gamedev</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-       /* --- PAGE ENTRY ANIMATION --- */
+body.dark {
+--bg: #0d0d12;
+--text: #ffffff;
+--card-bg: #161621;
+--border: #ffffff;
+--primary: #818cf8;
+--grid: rgba(255, 255, 255, 0.1);
+--shadow: rgba(0, 0, 0, 0.5);
+}
+
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+font-family: 'Pixelify Sans', monospace !important;
+}
+
 body {
-    opacity: 0;             /* start invisible */
-    transform: scale(0.98); /* slightly zoomed out */
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+background: var(--bg);
+color: var(--text);
+padding: 80px 24px;
+transition: background 0.4s ease, color 0.4s ease;
+overflow-x: hidden;
+position: relative;
 }
 
-body.page-loaded {
-    opacity: 1;             /* fade in */
-    transform: scale(1);    /* zoom to normal */
+/* ---------- ENHANCED BACKGROUND ---------- */
+.bg-lines {
+position: fixed;
+top: -10%;
+left: -10%;
+width: 120%;
+height: 120%;
+background-image:
+linear-gradient(var(--grid) 2px, transparent 2px),
+linear-gradient(90deg, var(--grid) 2px, transparent 2px);
+background-size: 50px 50px;
+z-index: -1;
+pointer-events: none;
+transition: transform 0.1s linear;
 }
 
-        :root {
-            --bg: #f0f0f5;
-            --text: #1a1a24;
-            --card-bg: #ffffff;
-            --primary: #6366f1;
-            --accent: #ff5a7f;
-            --border: #1a1a24;
-            --grid: rgba(0, 0, 0, 0.25);
-            --shadow: rgba(0, 0, 0, 0.1);
-        }
+.scanlines {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
+background-size: 100% 4px;
+z-index: 10;
+pointer-events: none;
+}
 
-        body.dark {
-            --bg: #0d0d12;
-            --text: #ffffff;
-            --card-bg: #161621;
-            --border: #ffffff;
-            --primary: #818cf8;
-            --grid: rgba(255, 255, 255, 0.1);
-            --shadow: rgba(0, 0, 0, 0.5);
-        }
+/* ---------- HERO ---------- */
+.hero {
+max-width: 760px;
+margin: 0 auto 80px;
+text-align: center;
+animation: fadeInDown 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Pixelify Sans', monospace !important;
-        }
+.title-row {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 24px;
+margin-bottom: 15px;
+}
 
-        body {
-            background: var(--bg);
-            color: var(--text);
-            padding: 80px 24px;
-            transition: background 0.4s ease, color 0.4s ease;
-            overflow-x: hidden;
-            position: relative;
-        }
+h1 {
+font-size: clamp(3rem, 10vw, 5rem);
+text-shadow: 4px 4px var(--shadow);
+transition: 0.3s;
+}
 
-        /* ---------- ENHANCED BACKGROUND ---------- */
-        .bg-lines {
-            position: fixed;
-            top: -10%;
-            left: -10%;
-            width: 120%;
-            height: 120%;
-            background-image:
-                linear-gradient(var(--grid) 2px, transparent 2px),
-                linear-gradient(90deg, var(--grid) 2px, transparent 2px);
-            background-size: 50px 50px;
-            z-index: -1;
-            pointer-events: none;
-            transition: transform 0.1s linear;
-        }
+h1:hover {
+transform: scale(1.02) rotate(-1deg);
+color: var(--primary);
+}
 
-        .scanlines {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
-            background-size: 100% 4px;
-            z-index: 10;
-            pointer-events: none;
-        }
+/* ---------- THE TOGGLE ---------- */
+.pixel-switch {
+display: flex;
+width: 140px;
+height: 40px;
+border: 4px solid var(--border);
+cursor: pointer;
+background: var(--border);
+box-shadow: 6px 6px 0 var(--shadow);
+transition: 0.1s;
+}
 
-        /* ---------- HERO ---------- */
-        .hero {
-            max-width: 760px;
-            margin: 0 auto 80px;
-            text-align: center;
-            animation: fadeInDown 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
+.pixel-switch:active {
+transform: translate(3px, 3px);
+box-shadow: 0px 0px 0 var(--border);
+}
 
-        .title-row {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 24px;
-            margin-bottom: 15px;
-        }
+.pixel-switch span {
+flex: 1;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 0.8rem;
+font-weight: bold;
+transition: 0.3s;
+}
 
-        h1 {
-            font-size: clamp(3rem, 10vw, 5rem);
-            text-shadow: 4px 4px var(--shadow);
-            transition: 0.3s;
-        }
+.sw-light {
+background: #fff;
+color: #000;
+}
 
-        h1:hover {
-            transform: scale(1.02) rotate(-1deg);
-            color: var(--primary);
-        }
+.sw-dark {
+background: #000;
+color: #fff;
+}
 
-        /* ---------- THE TOGGLE ---------- */
-        .pixel-switch {
-            display: flex;
-            width: 140px;
-            height: 40px;
-            border: 4px solid var(--border);
-            cursor: pointer;
-            background: var(--border);
-            box-shadow: 6px 6px 0 var(--shadow);
-            transition: 0.1s;
-        }
+#theme-toggle {
+display: none;
+}
 
-        .pixel-switch:active {
-            transform: translate(3px, 3px);
-            box-shadow: 0px 0px 0 var(--border);
-        }
+#theme-toggle:checked+.pixel-switch .sw-dark {
+opacity: 0.2;
+}
 
-        .pixel-switch span {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            font-weight: bold;
-            transition: 0.3s;
-        }
+#theme-toggle:not(:checked)+.pixel-switch .sw-light {
+opacity: 0.2;
+}
 
-        .sw-light {
-            background: #fff;
-            color: #000;
-        }
+/* ---------- CARDS & BORDER POLISH ---------- */
+main {
+max-width: 760px;
+margin: 0 auto;
+}
 
-        .sw-dark {
-            background: #000;
-            color: #fff;
-        }
+.card {
+padding: 35px;
+background: var(--card-bg);
+border: 4px solid var(--border);
+box-shadow: 12px 12px 0 var(--border);
+margin-bottom: 60px;
+position: relative;
+opacity: 0;
+transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+animation: float 6s ease-in-out infinite;
+}
 
-        #theme-toggle {
-            display: none;
-        }
+/* 4-Corner Border Brackets */
+.card::before,
+.card::after,
+.card-corner-tr,
+.card-corner-bl {
+content: '';
+position: absolute;
+width: 24px;
+height: 24px;
+border-color: var(--accent);
+border-style: solid;
+transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+pointer-events: none;
+}
 
-        #theme-toggle:checked+.pixel-switch .sw-dark {
-            opacity: 0.2;
-        }
+/* TL */
+.card::before {
+top: -12px;
+left: -12px;
+border-width: 6px 0 0 6px;
+}
 
-        #theme-toggle:not(:checked)+.pixel-switch .sw-light {
-            opacity: 0.2;
-        }
+/* BR */
+.card::after {
+bottom: -12px;
+right: -12px;
+border-width: 0 6px 6px 0;
+}
 
-        /* ---------- CARDS & BORDER POLISH ---------- */
-        main {
-            max-width: 760px;
-            margin: 0 auto;
-        }
+/* TR */
+.card-corner-tr {
+top: -12px;
+right: -12px;
+border-width: 6px 6px 0 0;
+border-color: var(--accent);
+border-style: solid;
+position: absolute;
+}
 
-        .card {
-            padding: 35px;
-            background: var(--card-bg);
-            border: 4px solid var(--border);
-            box-shadow: 12px 12px 0 var(--border);
-            margin-bottom: 60px;
-            position: relative;
-            opacity: 0;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            animation: float 6s ease-in-out infinite;
-        }
+/* BL */
+.card-corner-bl {
+bottom: -12px;
+left: -12px;
+border-width: 0 0 6px 6px;
+border-color: var(--accent);
+border-style: solid;
+position: absolute;
+}
 
-        /* 4-Corner Border Brackets */
-        .card::before,
-        .card::after,
-        .card-corner-tr,
-        .card-corner-bl {
-            content: '';
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            border-color: var(--accent);
-            border-style: solid;
-            transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            pointer-events: none;
-        }
+.card.reveal {
+opacity: 1;
+transform: rotate(var(--rotation)) translateY(0);
+}
 
-        /* TL */
-        .card::before {
-            top: -12px;
-            left: -12px;
-            border-width: 6px 0 0 6px;
-        }
+.tilt-left {
+--rotation: -1.2deg;
+}
 
-        /* BR */
-        .card::after {
-            bottom: -12px;
-            right: -12px;
-            border-width: 0 6px 6px 0;
-        }
+.tilt-right {
+--rotation: 1.2deg;
+}
 
-        /* TR */
-        .card-corner-tr {
-            top: -12px;
-            right: -12px;
-            border-width: 6px 6px 0 0;
-            border-color: var(--accent);
-            border-style: solid;
-            position: absolute;
-        }
+.card:hover {
+transform: rotate(0deg) translateY(-12px) scale(1.02) !important;
+box-shadow: 20px 20px 0 var(--primary);
+z-index: 5;
+border-color: var(--primary);
+}
 
-        /* BL */
-        .card-corner-bl {
-            bottom: -12px;
-            left: -12px;
-            border-width: 0 0 6px 6px;
-            border-color: var(--accent);
-            border-style: solid;
-            position: absolute;
-        }
+.card:hover::before,
+.card:hover::after,
+.card:hover .card-corner-tr,
+.card:hover .card-corner-bl {
+border-color: var(--text);
+width: 40px;
+height: 40px;
+opacity: 0.8;
+}
 
-        .card.reveal {
-            opacity: 1;
-            transform: rotate(var(--rotation)) translateY(0);
-        }
+h2 {
+margin-bottom: 20px;
+color: var(--primary);
+font-size: 2rem;
+letter-spacing: 1px;
+}
 
-        .tilt-left {
-            --rotation: -1.2deg;
-        }
+/* ---------- BLOG STYLING ---------- */
+.blog-post {
+background: rgba(129, 140, 248, 0.05);
+border-left: 6px solid var(--accent);
+padding: 20px;
+margin-top: 15px;
+position: relative;
+}
 
-        .tilt-right {
-            --rotation: 1.2deg;
-        }
+.blog-date {
+font-size: 0.85rem;
+color: var(--accent);
+font-weight: bold;
+margin-bottom: 5px;
+}
 
-        .card:hover {
-            transform: rotate(0deg) translateY(-12px) scale(1.02) !important;
-            box-shadow: 20px 20px 0 var(--primary);
-            z-index: 5;
-            border-color: var(--primary);
-        }
+/* ---------- BUTTONS ---------- */
+.btn-group {
+display: flex;
+gap: 20px;
+margin-top: 25px;
+flex-wrap: wrap;
+}
 
-        .card:hover::before,
-        .card:hover::after,
-        .card:hover .card-corner-tr,
-        .card:hover .card-corner-bl {
-            border-color: var(--text);
-            width: 40px;
-            height: 40px;
-            opacity: 0.8;
-        }
+.pixel-btn {
+display: inline-block;
+text-decoration: none;
+padding: 14px 28px;
+border: 4px solid var(--border);
+background: var(--card-bg);
+color: var(--text);
+box-shadow: 6px 6px 0 var(--border);
+transition: 0.2s;
+font-weight: bold;
+position: relative;
+}
 
-        h2 {
-            margin-bottom: 20px;
-            color: var(--primary);
-            font-size: 2rem;
-            letter-spacing: 1px;
-        }
+.pixel-btn:hover {
+transform: translate(-4px, -4px);
+box-shadow: 10px 10px 0 var(--primary);
+background: var(--primary);
+color: white;
+border-color: var(--border);
+}
 
-        /* ---------- BLOG STYLING ---------- */
-        .blog-post {
-            background: rgba(129, 140, 248, 0.05);
-            border-left: 6px solid var(--accent);
-            padding: 20px;
-            margin-top: 15px;
-            position: relative;
-        }
+.pixel-btn.accent {
+background: var(--accent);
+color: white;
+}
 
-        .blog-date {
-            font-size: 0.85rem;
-            color: var(--accent);
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
+.pixel-btn.accent:hover {
+box-shadow: 10px 10px 0 var(--text);
+}
 
-        /* ---------- BUTTONS ---------- */
-        .btn-group {
-            display: flex;
-            gap: 20px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
+/* ---------- ANIMATIONS ---------- */
+@keyframes fadeInDown {
+from {
+opacity: 0;
+transform: translateY(-40px);
+}
 
-        .pixel-btn {
-            display: inline-block;
-            text-decoration: none;
-            padding: 14px 28px;
-            border: 4px solid var(--border);
-            background: var(--card-bg);
-            color: var(--text);
-            box-shadow: 6px 6px 0 var(--border);
-            transition: 0.2s;
-            font-weight: bold;
-            position: relative;
-        }
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
 
-        .pixel-btn:hover {
-            transform: translate(-4px, -4px);
-            box-shadow: 10px 10px 0 var(--primary);
-            background: var(--primary);
-            color: white;
-            border-color: var(--border);
-        }
+@keyframes float {
 
-        .pixel-btn.accent {
-            background: var(--accent);
-            color: white;
-        }
+0%,
+100% {
+transform: translateY(0) rotate(var(--rotation));
+}
 
-        .pixel-btn.accent:hover {
-            box-shadow: 10px 10px 0 var(--text);
-        }
+50% {
+transform: translateY(-15px) rotate(calc(var(--rotation) * -0.5));
+}
+}
 
-        /* ---------- ANIMATIONS ---------- */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-40px);
-            }
+li {
+margin-bottom: 12px;
+font-size: 1.25rem;
+transition: 0.3s;
+list-style: none;
+display: flex;
+align-items: center;
+}
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+li::before {
+content: '>';
+margin-right: 10px;
+color: var(--accent);
+font-weight: bold;
+opacity: 0;
+transition: 0.3s;
+}
 
-        @keyframes float {
+li:hover::before {
+opacity: 1;
+transform: translateX(5px);
+}
 
-            0%,
-            100% {
-                transform: translateY(0) rotate(var(--rotation));
-            }
+li:hover {
+color: var(--primary);
+}
 
-            50% {
-                transform: translateY(-15px) rotate(calc(var(--rotation) * -0.5));
-            }
-        }
+.accomplishments a {
+color: var(--primary);
+text-decoration: none;
+font-weight: bold;
+}
 
-        li {
-            margin-bottom: 12px;
-            font-size: 1.25rem;
-            transition: 0.3s;
-            list-style: none;
-            display: flex;
-            align-items: center;
-        }
+footer {
+text-align: center;
+margin: 100px 0 50px;
+opacity: 0.5;
+font-size: 1rem;
+border-top: 2px dashed var(--grid);
+padding-top: 20px;
+}
 
-        li::before {
-            content: '>';
-            margin-right: 10px;
-            color: var(--accent);
-            font-weight: bold;
-            opacity: 0;
-            transition: 0.3s;
-        }
+/* ---------- PALETTE SIDEBAR ---------- */
+#palette-sidebar {
+position: fixed;
+top: 150px;
+right: 30px;
+width: 220px;
+z-index: 50;
+cursor: pointer;
+transition: transform 0.3s ease;
+}
 
-        li:hover::before {
-            opacity: 1;
-            transform: translateX(5px);
-        }
+#palette-sidebar:hover {
+transform: translateY(-5px) scale(1.05);
+}
 
-        li:hover {
-            color: var(--primary);
-        }
+#palette-sidebar img:hover {
+transform: rotate(0deg) scale(1.05);
+}
 
-        .accomplishments a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: bold;
-        }
+#palette-sidebar.tilt-right {
+transform: rotate(2deg);
+}
 
-        footer {
-            text-align: center;
-            margin: 100px 0 50px;
-            opacity: 0.5;
-            font-size: 1rem;
-            border-top: 2px dashed var(--grid);
-            padding-top: 20px;
-        }
+/* ---------- LEFT ABOUT SIDEBAR ---------- */
+#about-ham-card {
+position: fixed;
+left: 30px;
+top: 180px;
+width: 220px;
+z-index: 45;
+cursor: default;
+background: var(--card-bg);
+border: 4px solid var(--border);
+box-shadow: 10px 10px 0 var(--border);
+padding: 18px;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-        /* ---------- PALETTE SIDEBAR ---------- */
-        #palette-sidebar {
-            position: fixed;
-            top: 150px;
-            right: 30px;
-            width: 220px;
-            z-index: 50;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
+#about-ham-card:hover {
+transform: translateY(-6px) scale(1.04) rotate(-0.5deg);
+box-shadow: 14px 14px 0 var(--primary);
+}
 
-        #palette-sidebar:hover {
-            transform: translateY(-5px) scale(1.05);
-        }
+#about-ham-card p,
+#about-ham-card li {
+font-size: 0.93rem;
+margin-bottom: 6px;
+}
 
-        #palette-sidebar img:hover {
-            transform: rotate(0deg) scale(1.05);
-        }
+#about-ham-card ul {
+margin: 8px 0;
+padding-left: 16px;
+}
 
-        #palette-sidebar.tilt-right {
-            transform: rotate(2deg);
-        }
-
-        /* ---------- LEFT ABOUT SIDEBAR ---------- */
-        #about-ham-card {
-            position: fixed;
-            left: 30px;
-            top: 180px;
-            width: 220px;
-            z-index: 45;
-            cursor: default;
-            background: var(--card-bg);
-            border: 4px solid var(--border);
-            box-shadow: 10px 10px 0 var(--border);
-            padding: 18px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        #about-ham-card:hover {
-            transform: translateY(-6px) scale(1.04) rotate(-0.5deg);
-            box-shadow: 14px 14px 0 var(--primary);
-        }
-
-        #about-ham-card p,
-        #about-ham-card li {
-            font-size: 0.93rem;
-            margin-bottom: 6px;
-        }
-
-        #about-ham-card ul {
-            margin: 8px 0;
-            padding-left: 16px;
-        }
-
-        #about-ham-card h2 {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-            color: var(--primary);
-            text-align: center;
-        }
-    </style>
+#about-ham-card h2 {
+font-size: 1.4rem;
+margin-bottom: 10px;
+color: var(--primary);
+text-align: center;
+}
+</style>
 </head>
 
 <body class="dark">
-    <div class="bg-lines" id="grid"></div>
-    <div class="scanlines"></div>
-    <header class="hero">
-        <div class="title-row">
-            <h1 data-text="HAM">that-ham</h1>
-            <div class="toggle-container">
-                <input type="checkbox" id="theme-toggle">
-                <label for="theme-toggle" class="pixel-switch">
-                    <span class="sw-light">LIGHT</span>
-                    <span class="sw-dark">DARK</span>
-                </label>
-            </div>
-        </div>
-        <p class="tagline">student · gamedev · godot user</p>
-        <div class="links">
-            <a href="https://thatham.itch.io/" target="_blank"
-                style="color:var(--accent); text-decoration:none; font-weight:bold; margin: 0 10px;">[ itch.io ]</a>
-            <a href="https://discord.com/users/that.ham" target="_blank"
-                style="color:var(--primary); text-decoration:none; font-weight:bold; margin: 0 10px;">[ discord ]</a>
-        </div>
-    </header>
-    <main>
-        <section class="card tilt-left">
-            <div class="card-corner-tr"></div>
-            <div class="card-corner-bl"></div>
-            <h2>About</h2>
-            <p>I make silly little games while I pursue my silly little dreams. I've been learning Godot since late 2024.</p>
-        </section>
-        <section class="card tilt-right">
-            <div class="card-corner-tr"></div>
-            <div class="card-corner-bl"></div>
-            <h2>Blog</h2>
-            <div class="blog-post">
-                <p class="blog-date">Feb 08, 2026</p>
-                <p>I'm ham! Godot 4.6 just came out! Why can bird fly and we can't? YOU BETTER BE DOIN HAM JAM!</p>
-            </div>
-        </section>
-        <section class="card tilt-left">
-            <div class="card-corner-tr"></div>
-            <div class="card-corner-bl"></div>
-            <h2>Accomplishments</h2>
-            <ul class="accomplishments">
-                <li>🥇 <strong>1st Place</strong> – <a href="https://itch.io/jam/micro-jam-050" target="_blank">Micro Jam 050</a></li>
-                <li>🥉 <strong>3rd Place</strong> – <a href="https://itch.io/jam/one-more-run-iii" target="_blank">One More Run III</a></li>
-                <li>🏅 <strong>4th Place</strong> – <a href="https://itch.io/jam/micro-jam-052" target="_blank">Micro Jam 052</a></li>
-                <li>🏅 <strong>4th Place</strong> – <a href="https://itch.io/jam/-chili-code-jam-4/results" target="_blank">Chili Code Jam #4</a></li>
-            </ul>
-        </section>
-        <section class="card tilt-right">
-            <div class="card-corner-tr"></div>
-            <div class="card-corner-bl"></div>
-            <h2>Jams I Host</h2>
-            <div class="jam-content">
-                <h3>The Ham Jam #1</h3>
-                <p>A community-focused game jam I host!</p>
-                <a class="pixel-btn accent" href="https://itch.io/jam/theham-jam-1" target="_blank" style="margin-top:10px;">View Jam on itch.io →</a>
-            </div>
-        </section>
-        <section class="card tilt-left">
-            <div class="card-corner-tr"></div>
-            <div class="card-corner-bl"></div>
-            <h2>Games & Links</h2>
-            <p>Ready to see everything? Browse my full library of games on itch.</p>
-            <div class="btn-group">
-                <a href="https://thatham.itch.io/" class="pixel-btn">View All My Games</a>
-                <a href="https://discord.gg/dkAHTQYc3A" class="pixel-btn">Discord Server</a>
-            </div>
-        </section>
-        <section class="card tilt-right" id="quiz-card">
-            <div class="card-corner-tr"></div>
-            <div class="card-corner-bl"></div>
-            <h2>Ham Quiz</h2>
-            <div class="prog-wrap"
-                style="border:3px solid var(--border); background:var(--border); height:12px; margin:15px 0;">
-                <div class="prog-bar" id="p-bar"
-                    style="height:100%; width:0%; background:var(--accent); transition: width 0.3s steps(5);"></div>
-            </div>
-            <div id="quiz-box">
-                <p id="q-txt" style="font-weight:bold; margin-bottom:15px;"></p>
-                <div id="q-opts"></div>
-                <p id="q-fb" style="margin-top:15px; font-weight:bold; text-align:center; height:1.5em;"></p>
-            </div>
-        </section>
-    </main>
+<div class="bg-lines" id="grid"></div>
+<div class="scanlines"></div>
+<header class="hero">
+<div class="title-row">
+<h1 data-text="HAM">that-ham</h1>
+<div class="toggle-container">
+<input type="checkbox" id="theme-toggle">
+<label for="theme-toggle" class="pixel-switch">
+<span class="sw-light">LIGHT</span>
+<span class="sw-dark">DARK</span>
+</label>
+</div>
+</div>
+<p class="tagline">student · gamedev · godot user</p>
+<div class="links">
+<a href="https://thatham.itch.io/" target="_blank"
+style="color:var(--accent); text-decoration:none; font-weight:bold; margin: 0 10px;">[ itch.io ]</a>
+<a href="https://discord.com/users/that.ham" target="_blank"
+style="color:var(--primary); text-decoration:none; font-weight:bold; margin: 0 10px;">[ discord ]</a>
+</div>
+</header>
+<main>
+<section class="card tilt-left">
+<div class="card-corner-tr"></div>
+<div class="card-corner-bl"></div>
+<h2>About</h2>
+<p>I make silly little games while I pursue my silly little dreams. I've been learning Godot since late 2024.</p>
+</section>
+<section class="card tilt-right">
+<div class="card-corner-tr"></div>
+<div class="card-corner-bl"></div>
+<h2>Blog</h2>
+<div class="blog-post">
+<p class="blog-date">Feb 08, 2026</p>
+<p>I'm ham! Godot 4.6 just came out! Why can bird fly and we can't? YOU BETTER BE DOIN HAM JAM!</p>
+</div>
+</section>
+<section class="card tilt-left">
+<div class="card-corner-tr"></div>
+<div class="card-corner-bl"></div>
+<h2>Accomplishments</h2>
+<ul class="accomplishments">
+<li>🥇 <strong>1st Place</strong> – <a href="https://itch.io/jam/micro-jam-050" target="_blank">Micro Jam 050</a></li>
+<li>🥉 <strong>3rd Place</strong> – <a href="https://itch.io/jam/one-more-run-iii" target="_blank">One More Run III</a></li>
+<li>🏅 <strong>4th Place</strong> – <a href="https://itch.io/jam/micro-jam-052" target="_blank">Micro Jam 052</a></li>
+<li>🏅 <strong>4th Place</strong> – <a href="https://itch.io/jam/-chili-code-jam-4/results" target="_blank">Chili Code Jam #4</a></li>
+</ul>
+</section>
+<section class="card tilt-right">
+<div class="card-corner-tr"></div>
+<div class="card-corner-bl"></div>
+<h2>Jams I Host</h2>
+<div class="jam-content">
+<h3>The Ham Jam #1</h3>
+<p>A community-focused game jam I host!</p>
+<a class="pixel-btn accent" href="https://itch.io/jam/theham-jam-1" target="_blank" style="margin-top:10px;">View Jam on itch.io →</a>
+</div>
+</section>
+<section class="card tilt-left">
+<div class="card-corner-tr"></div>
+<div class="card-corner-bl"></div>
+<h2>Games & Links</h2>
+<p>Ready to see everything? Browse my full library of games on itch.</p>
+<div class="btn-group">
+<a href="https://thatham.itch.io/" class="pixel-btn">View All My Games</a>
+<a href="https://discord.gg/dkAHTQYc3A" class="pixel-btn">Discord Server</a>
+</div>
+</section>
+<section class="card tilt-right" id="quiz-card">
+<div class="card-corner-tr"></div>
+<div class="card-corner-bl"></div>
+<h2>Ham Quiz</h2>
+<div class="prog-wrap"
+style="border:3px solid var(--border); background:var(--border); height:12px; margin:15px 0;">
+<div class="prog-bar" id="p-bar"
+style="height:100%; width:0%; background:var(--accent); transition: width 0.3s steps(5);"></div>
+</div>
+<div id="quiz-box">
+<p id="q-txt" style="font-weight:bold; margin-bottom:15px;"></p>
+<div id="q-opts"></div>
+<p id="q-fb" style="margin-top:15px; font-weight:bold; text-align:center; height:1.5em;"></p>
+</div>
+</section>
+</main>
 
-    <!-- Ham's Favorite Palette Sidebar -->
-    <div id="palette-sidebar" class="card tilt-right">
-        <div class="card-corner-tr"></div>
-        <div class="card-corner-bl"></div>
-        <h2>Ham's Favorite Palette</h2>
-        <a href="https://lospec.com/palette-list/pear36" target="_blank"
-            style="display:flex; flex-direction:column; align-items:center; text-decoration:none;">
-            <img src="assets/palette.png" alt="Pear36 Palette"
-                style="width:180px; height:auto; transform:rotate(-2deg); margin-bottom:15px; border:3px solid var(--accent); box-shadow: 6px 6px 0 var(--border); transition: transform 0.3s ease;">
-            <span style="color:var(--accent); font-weight:bold; font-size:1rem;">View on Lospec →</span>
-        </a>
-    </div>
+<!-- Ham's Favorite Palette Sidebar -->
+<div id="palette-sidebar" class="card tilt-right">
+<div class="card-corner-tr"></div>
+<div class="card-corner-bl"></div>
+<h2>Ham's Favorite Palette</h2>
+<a href="https://lospec.com/palette-list/pear36" target="_blank"
+style="display:flex; flex-direction:column; align-items:center; text-decoration:none;">
+<img src="assets/palette.png" alt="Pear36 Palette"
+style="width:180px; height:auto; transform:rotate(-2deg); margin-bottom:15px; border:3px solid var(--accent); box-shadow: 6px 6px 0 var(--border); transition: transform 0.3s ease;">
+<span style="color:var(--accent); font-weight:bold; font-size:1rem;">View on Lospec →</span>
+</a>
+</div>
 
-    <!-- Ham About Sidebar -->
-    <div id="about-ham-card" class="card tilt-left">
-        <div class="card-corner-tr"></div>
-        <div class="card-corner-bl"></div>
-        <h2>About Ham</h2>
-        <p><strong>Name:</strong> Ham</p>
-        <p><strong>Pronouns:</strong> He/Him</p>
-        <p><strong>Hobbies:</strong></p>
-        <ul>
-            <li>Wrestling</li>
-            <li>Football/Soccer</li>
-            <li>Basketball</li>
-            <li>Gamedev</li>
-            <li>Gaming</li>
-        </ul>
-        <p><strong>Aspirations:</strong><br>Wants to go to UC Berkeley</p>
-    </div>
+<!-- Ham About Sidebar -->
+<div id="about-ham-card" class="card tilt-left">
+<div class="card-corner-tr"></div>
+<div class="card-corner-bl"></div>
+<h2>About Ham</h2>
+<p><strong>Name:</strong> Ham</p>
+<p><strong>Pronouns:</strong> He/Him</p>
+<p><strong>Hobbies:</strong></p>
+<ul>
+<li>Wrestling</li>
+<li>Football/Soccer</li>
+<li>Basketball</li>
+<li>Gamedev</li>
+<li>Gaming</li>
+</ul>
+<p><strong>Aspirations:</strong><br>Wants to go to UC Berkeley</p>
+</div>
 
-    <footer>
-        <p>© that-ham // v2.0.26</p>
-    </footer>
+<footer>
+<p>© that-ham // v2.0.26</p>
+</footer>
 
-    <script>
-        // --- QUIZ ENGINE ---
-        const questions = [
-            { q: "What engine does Ham use?", o: ["Unity", "Godot", "Unreal"], a: 1 },
-            { q: "When did Ham start Godot?", o: ["Late 2024", "2022", "2025"], a: 0 },
-            { q: "Ham's best jam rank?", o: ["Top 10", "4th Place", "1st Place"], a: 2 }
-        ];
-        let qIdx = 0;
-        function initQuiz() {
-            const fb = document.getElementById('q-fb');
-            fb.innerText = "";
-            if (qIdx >= questions.length) {
-                document.getElementById('quiz-box').innerHTML = "<p style='text-align:center;'>🏆 100% COMPLETE - THANKS FOR TAKING MY QUIZ!</p><button class='pixel-btn accent' style='width:100%; margin-top:15px;' onclick='location.reload()'>Restart</button>";
-                document.getElementById('p-bar').style.width = "100%";
-                return;
-            }
-            const q = questions[qIdx];
-            document.getElementById('q-txt').innerText = q.q;
-            document.getElementById('p-bar').style.width = `${(qIdx / questions.length) * 100}%`;
-            const opts = document.getElementById('q-opts');
-            opts.innerHTML = '';
-            q.o.forEach((opt, i) => {
-                const btn = document.createElement('button');
-                btn.className = 'quiz-option pixel-btn';
-                btn.style.width = "100%";
-                btn.style.margin = "5px 0";
-                btn.innerText = opt;
-                btn.onclick = () => {
-                    if (i === q.a) {
-                        fb.style.color = "var(--text)";
-                        fb.innerText = "✓ CORRECT";
-                        qIdx++;
-                        setTimeout(initQuiz, 700);
-                    } else {
-                        document.getElementById('quiz-card').classList.add('shake');
-                        fb.style.color = "var(--accent)";
-                        fb.innerText = "× INCORRECT";
-                        setTimeout(() => document.getElementById('quiz-card').classList.remove('shake'), 400);
-                    }
-                };
-                opts.appendChild(btn);
-            });
-        }
+<script>
+// --- QUIZ ENGINE ---
+const questions = [
+{ q: "What engine does Ham use?", o: ["Unity", "Godot", "Unreal"], a: 1 },
+{ q: "When did Ham start Godot?", o: ["Late 2024", "2022", "2025"], a: 0 },
+{ q: "Ham's best jam rank?", o: ["Top 10", "4th Place", "1st Place"], a: 2 }
+];
+let qIdx = 0;
+function initQuiz() {
+const fb = document.getElementById('q-fb');
+fb.innerText = "";
+if (qIdx >= questions.length) {
+document.getElementById('quiz-box').innerHTML = "<p style='text-align:center;'>🏆 100% COMPLETE - THANKS FOR TAKING MY QUIZ!</p><button class='pixel-btn accent' style='width:100%; margin-top:15px;' onclick='location.reload()'>Restart</button>";
+document.getElementById('p-bar').style.width = "100%";
+return;
+}
+const q = questions[qIdx];
+document.getElementById('q-txt').innerText = q.q;
+document.getElementById('p-bar').style.width = `${(qIdx / questions.length) * 100}%`;
+const opts = document.getElementById('q-opts');
+opts.innerHTML = '';
+q.o.forEach((opt, i) => {
+const btn = document.createElement('button');
+btn.className = 'quiz-option pixel-btn';
+btn.style.width = "100%";
+btn.style.margin = "5px 0";
+btn.innerText = opt;
+btn.onclick = () => {
+if (i === q.a) {
+fb.style.color = "var(--text)";
+fb.innerText = "✓ CORRECT";
+qIdx++;
+setTimeout(initQuiz, 700);
+} else {
+document.getElementById('quiz-card').classList.add('shake');
+fb.style.color = "var(--accent)";
+fb.innerText = "× INCORRECT";
+setTimeout(() => document.getElementById('quiz-card').classList.remove('shake'), 400);
+}
+};
+opts.appendChild(btn);
+});
+}
 
-        // Theme Toggle
-        const toggle = document.getElementById('theme-toggle');
-        const body = document.body;
-        const cards = document.querySelectorAll('.card');
-        const grid = document.getElementById('grid');
+// Theme Toggle
+const toggle = document.getElementById('theme-toggle');
+const body = document.body;
+const cards = document.querySelectorAll('.card');
+const grid = document.getElementById('grid');
 
-        toggle.checked = !body.classList.contains('dark');
-        toggle.addEventListener('change', () => {
-            body.classList.toggle('dark', !toggle.checked);
-        });
-
-        // Parallax Effect
-        document.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth) * 20;
-            const y = (e.clientY / window.innerHeight) * 20;
-            grid.style.transform = `translate(${x}px, ${y}px)`;
-        });
-
-        // Staggered Reveal Animation & Quiz Init
-        window.addEventListener('DOMContentLoaded', () => {
-    // 1. Fade in the whole page
-    setTimeout(() => document.body.classList.add('page-loaded'), 50);
-
-    // 2. Staggered card reveal
-    cards.forEach((card, index) => {
-        setTimeout(() => {
-            card.classList.add('reveal');
-        }, 150 * (index + 1));
-    });
-
-    // 3. Initialize quiz
-    initQuiz();
+toggle.checked = !body.classList.contains('dark');
+toggle.addEventListener('change', () => {
+body.classList.toggle('dark', !toggle.checked);
 });
 
-    </script>
+// Parallax Effect
+document.addEventListener('mousemove', (e) => {
+const x = (e.clientX / window.innerWidth) * 20;
+const y = (e.clientY / window.innerHeight) * 20;
+grid.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+// Staggered Reveal Animation & Quiz Init
+window.addEventListener('DOMContentLoaded', () => {
+cards.forEach((card, index) => {
+setTimeout(() => {
+card.classList.add('reveal');
+}, 150 * (index + 1));
+});
+initQuiz();
+});
+</script>
 </body>
 
 </html>
