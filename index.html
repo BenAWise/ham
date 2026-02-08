@@ -329,6 +329,31 @@ color: white;
 box-shadow: 10px 10px 0 var(--text);
 }
 
+
+@keyframes bounce {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-6px); }
+}
+
+#q-fb.correct {
+    color: var(--primary);
+    animation: bounce 0.4s ease-out;
+}
+
+#q-fb.incorrect {
+    color: var(--accent);
+    animation: shake 0.4s ease-in-out;
+}
+
+    
 /* ---------- ANIMATIONS ---------- */
 @keyframes fadeInDown {
 from {
@@ -535,7 +560,10 @@ style="color:var(--primary); text-decoration:none; font-weight:bold; margin: 0 1
 <div class="prog-wrap"
 style="border:3px solid var(--border); background:var(--border); height:12px; margin:15px 0;">
 <div class="prog-bar" id="p-bar"
-style="height:100%; width:0%; background:var(--accent); transition: width 0.3s steps(5);"></div>
+style="height: 100%;
+    width: 0%;
+    background: var(--accent);
+    transition: width 0.5s ease-out;"></div>
 </div>
 <div id="quiz-box">
 <p id="q-txt" style="font-weight:bold; margin-bottom:15px;"></p>
@@ -587,15 +615,42 @@ const questions = [
 { q: "When did Ham start Godot?", o: ["Late 2024", "2022", "2025"], a: 0 },
 { q: "Ham's best jam rank?", o: ["Top 10", "4th Place", "1st Place"], a: 2 }
 ];
+
+    function launchConfetti() {
+    const confetti = document.createElement('div');
+    confetti.innerText = '🎉';
+    confetti.style.position = 'fixed';
+    confetti.style.fontSize = '24px';
+    confetti.style.left = Math.random() * window.innerWidth + 'px';
+    confetti.style.top = '0';
+    confetti.style.pointerEvents = 'none';
+    confetti.style.zIndex = '9999';
+    document.body.appendChild(confetti);
+
+    let fall = 0;
+    const fallInterval = setInterval(() => {
+        fall += 5 + Math.random() * 5;
+        confetti.style.top = fall + 'px';
+        confetti.style.transform = `rotate(${Math.random()*360}deg)`;
+        if (fall > window.innerHeight) {
+            clearInterval(fallInterval);
+            confetti.remove();
+        }
+    }, 20);
+}
+
+    
 let qIdx = 0;
 function initQuiz() {
 const fb = document.getElementById('q-fb');
 fb.innerText = "";
 if (qIdx >= questions.length) {
-document.getElementById('quiz-box').innerHTML = "<p style='text-align:center;'>🏆 100% COMPLETE - THANKS FOR TAKING MY QUIZ!</p><button class='pixel-btn accent' style='width:100%; margin-top:15px;' onclick='location.reload()'>Restart</button>";
-document.getElementById('p-bar').style.width = "100%";
-return;
+    launchConfetti();
+    document.getElementById('quiz-box').innerHTML = "<p style='text-align:center;'>🏆 100% COMPLETE - THANKS FOR TAKING MY QUIZ!</p><button class='pixel-btn accent' style='width:100%; margin-top:15px;' onclick='location.reload()'>Restart</button>";
+    document.getElementById('p-bar').style.width = "100%";
+    return;
 }
+
 const q = questions[qIdx];
 document.getElementById('q-txt').innerText = q.q;
 document.getElementById('p-bar').style.width = `${(qIdx / questions.length) * 100}%`;
@@ -609,15 +664,15 @@ btn.style.margin = "5px 0";
 btn.innerText = opt;
 btn.onclick = () => {
 if (i === q.a) {
-fb.style.color = "var(--text)";
-fb.innerText = "✓ CORRECT";
-qIdx++;
-setTimeout(initQuiz, 700);
+    fb.classList.remove('incorrect');
+    fb.classList.add('correct');
+    fb.innerText = "✓ CORRECT";
+    qIdx++;
+    setTimeout(initQuiz, 700);
 } else {
-document.getElementById('quiz-card').classList.add('shake');
-fb.style.color = "var(--accent)";
-fb.innerText = "× INCORRECT";
-setTimeout(() => document.getElementById('quiz-card').classList.remove('shake'), 400);
+    fb.classList.remove('correct');
+    fb.classList.add('incorrect');
+    fb.innerText = "× INCORRECT";
 }
 };
 opts.appendChild(btn);
