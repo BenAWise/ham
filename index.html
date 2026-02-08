@@ -163,12 +163,12 @@ margin: 0 auto;
     margin-bottom: 60px;
     position: relative;
     
-    /* NEW: Start state - invisible, slightly smaller, and shifted down */
+    /* 1. Set the initial "hidden" state */
     opacity: 0;
-    transform: scale(0.85) translateY(40px);
-    pointer-events: none; 
+    /* We use 'translate' specifically so it doesn't fight 'fixed' positioning */
+    transform: scale(0.8) translateY(40px);
+    pointer-events: none;
     
-    /* This transition handles the hover effects later */
     transition: 
         background 0.4s ease, 
         color 0.4s ease, 
@@ -227,15 +227,22 @@ position: absolute;
 
 .card.reveal {
     opacity: 1;
-    /* NEW: Snaps to full size and its specific rotation */
-    transform: scale(1) translateY(0) rotate(var(--rotation));
     pointer-events: auto;
     
-    /* NEW: The "Entrance" physics (snappy overshoot) */
+    /* 2. Combine the rotation and the pop effect */
+    /* If the card has a custom rotation (tilt-left/right), this applies it */
+    transform: scale(1) translateY(0) rotate(var(--rotation, 0deg));
+    
+    /* 3. The "Snap" entrance physics */
     transition: 
         opacity 0.5s ease-out, 
         transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
 
+/* Ensure sidebars stay where they belong */
+#palette-sidebar, #about-ham-card {
+    position: fixed !important;
+}
 .tilt-left {
 --rotation: -1.2deg;
 }
