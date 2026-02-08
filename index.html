@@ -329,7 +329,22 @@ color: white;
 box-shadow: 10px 10px 0 var(--text);
 }
 
+.tagline {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--primary);
+    animation: floatTagline 3s ease-in-out infinite;
+}
 
+@keyframes floatTagline {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-3px) rotate(-1deg); }
+    50% { transform: translateY(3px) rotate(1deg); }
+    75% { transform: translateY(-2px) rotate(-0.5deg); }
+}
+
+    
 @keyframes bounce {
     0%   { transform: scale(1); }
     50%  { transform: scale(1.2); }
