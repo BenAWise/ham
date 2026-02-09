@@ -404,6 +404,39 @@ transform: translateY(-15px) rotate(calc(var(--rotation) * -0.5));
 }
 }
 
+
+/* ---------- CLOSE BUTTON ---------- */
+.closable {
+    position: fixed;
+}
+
+.close-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--card-bg);
+    border: 3px solid var(--border);
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 2px 6px;
+    box-shadow: 3px 3px 0 var(--border);
+    transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.close-btn:hover {
+    background: var(--accent);
+    color: white;
+    transform: scale(1.1);
+}
+
+.close-btn:active {
+    transform: scale(0.95);
+}
+
+
+    
 .blog-tags {
     margin-top: 10px;
     display: flex;
@@ -630,7 +663,8 @@ style="height: 100%;
 </main>
 
 <!-- Ham's Favorite Palette Sidebar -->
-<div id="palette-sidebar" class="card tilt-right">
+<div id="palette-sidebar" class="card tilt-right closable">
+<button class="close-btn" onclick="closeCard('palette-sidebar')">✕</button>
 <div class="card-corner-tr"></div>
 <div class="card-corner-bl"></div>
 <h2>Ham's Favorite Palette</h2>
@@ -643,7 +677,9 @@ style="width:180px; height:auto; transform:rotate(-2deg); margin-bottom:15px; bo
 </div>
 
 <!-- Ham About Sidebar -->
-<div id="about-ham-card" class="card tilt-left">
+<div id="about-ham-card" class="card tilt-left closable">
+<button class="close-btn" onclick="closeCard('about-ham-card')">✕</button>
+
 <div class="card-corner-tr"></div>
 <div class="card-corner-bl"></div>
 <h2>About Ham</h2>
@@ -739,6 +775,18 @@ card.classList.add('reveal');
 });
 initQuiz();
 });
+
+function closeCard(id) {
+    const card = document.getElementById(id);
+    card.style.transform = "scale(0.8)";
+    card.style.opacity = "0";
+    card.style.pointerEvents = "none";
+
+    setTimeout(() => {
+        card.style.display = "none";
+    }, 300);
+}
+
 </script>
 </body>
 
