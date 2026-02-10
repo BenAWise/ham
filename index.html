@@ -281,6 +281,17 @@ position: absolute;
 /* Ensure sidebars stay where they belong */
 #palette-sidebar, #about-ham-card {
     position: fixed !important;
+    z-index: 100;
+   
+    opacity: 0;
+    transform: scale(0.8) translateY(40px); 
+}
+
+
+#palette-sidebar.reveal, #about-ham-card.reveal {
+    opacity: 1 !important;
+    transform: scale(1) translateY(0) rotate(var(--rotation, 0deg)) !important;
+}
 }
 .tilt-left {
 --rotation: -1.2deg;
@@ -606,25 +617,23 @@ text-align: center;
 <div class="bg-lines" id="grid"></div>
 <div class="scanlines"></div>
 <header class="hero">
-<div class="title-row">
-<h1 data-text="HAM">that-ham</h1>
-<div class="toggle-container">
-<input type="checkbox" id="theme-toggle">
-<label for="theme-toggle" class="pixel-switch">
-<span class="sw-light">LIGHT</span>
-<span class="sw-dark">DARK</span>
-</label>
-</div>
-</div>
-<p class="tagline">student · gamedev · godot user</p>
-<div class="links">
-<a href="https://thatham.itch.io/" target="_blank"
-style="color:var(--accent); text-decoration:none; font-weight:bold; margin: 0 10px;">[ itch.io ]</a>
-<a href="https://discord.com/users/that.ham" target="_blank"
-style="color:var(--primary); text-decoration:none; font-weight:bold; margin: 0 10px;">[ discord ]</a>
-</div>
+    <div class="title-row">
+        <h1 data-text="HAM">that-ham</h1>
+        <div class="toggle-container">
+            <input type="checkbox" id="theme-toggle">
+            <label for="theme-toggle" class="pixel-switch">
+                <span class="sw-light">LIGHT</span>
+                <span class="sw-dark">DARK</span>
+            </label>
+        </div>
+    </div>
+    <p class="tagline">student · gamedev · godot user</p>
+    <div class="links">
+        <a href="https://thatham.itch.io/" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:bold; margin: 0 10px;">[ itch.io ]</a>
+        <a href="https://discord.com/users/that.ham" target="_blank" style="color:var(--primary); text-decoration:none; font-weight:bold; margin: 0 10px;">[ discord ]</a>
+    </div>
+</header>
 
-</div>
 <main>
     <section id="status-card" class="card tilt-right">
         <div class="card-corner-tr"></div>
@@ -639,78 +648,75 @@ style="color:var(--primary); text-decoration:none; font-weight:bold; margin: 0 1
         </div>
         <p style="font-size: 0.8rem; margin-top: 8px; opacity: 0.8;">Status: Mechanics Work + Juice and Polish</p>
     </section>
-    
-<div class="card-corner-tr"></div>
-<div class="card-corner-bl"></div>
-<h2>About</h2>
-<p>I make silly little games while I pursue my silly little dreams. I've been learning Godot since late 2024.</p>
-</section>
-<section class="card tilt-right">
-<div class="card-corner-tr"></div>
-<div class="card-corner-bl"></div>
-<div class="blog-post">
-    <p class="blog-date">Feb 10, 2026</p>
-    <p>Lowkey wanna do CFAC 4 but am already doing a few jams... should I still do it??? DC: That.ham</p>
-    
-    <!-- Tags Section -->
-    <div class="blog-tags">
-        <span class="tag">#CFAC</span>
-        <span class="tag">#Gamedev</span>
-        <span class="tag">#Jams</span>
 
-    </div>
-</div>
-</div>
-</section>
-<section class="card tilt-left">
-<div class="card-corner-tr"></div>
-<div class="card-corner-bl"></div>
-<h2>Accomplishments</h2>
-<ul class="accomplishments">
-<li>🥇 <strong>1st Place</strong> – <a href="https://itch.io/jam/micro-jam-050" target="_blank">Micro Jam 050</a></li>
-<li>🥉 <strong>3rd Place</strong> – <a href="https://itch.io/jam/one-more-run-iii" target="_blank">One More Run III</a></li>
-<li>🏅 <strong>4th Place</strong> – <a href="https://itch.io/jam/micro-jam-052" target="_blank">Micro Jam 052</a></li>
-<li>🏅 <strong>4th Place</strong> – <a href="https://itch.io/jam/-chili-code-jam-4/results" target="_blank">Chili Code Jam #4</a></li>
-</ul>
-</section>
-<section class="card tilt-right">
-<div class="card-corner-tr"></div>
-<div class="card-corner-bl"></div>
-<h2>Jams I Host</h2>
-<div class="jam-content">
-<h3>The Ham Jam #1</h3>
-<p>A community-focused game jam I host!</p>
-<a class="pixel-btn accent" href="https://itch.io/jam/theham-jam-1" target="_blank" style="margin-top:10px;">View Jam on itch.io →</a>
-</div>
-</section>
-<section class="card tilt-left">
-<div class="card-corner-tr"></div>
-<div class="card-corner-bl"></div>
-<h2>Games & Links</h2>
-<p>Ready to see everything? Browse my full library of games on itch.</p>
-<div class="btn-group">
-<a href="https://thatham.itch.io/" class="pixel-btn">View All My Games</a>
-<a href="https://discord.gg/dkAHTQYc3A" class="pixel-btn">Discord Server</a>
-</div>
-</section>
-<section class="card tilt-right" id="quiz-card">
-<div class="card-corner-tr"></div>
-<div class="card-corner-bl"></div>
-<h2>Ham Quiz</h2>
-<div class="prog-wrap"
-style="border:3px solid var(--border); background:var(--border); height:12px; margin:15px 0;">
-<div class="prog-bar" id="p-bar"
-style="height: 100%;
-    width: 0%;
-    background: var(--accent);
-    transition: width 0.5s ease-out;"></div>
-</div>
-<div id="quiz-box">
-<p id="q-txt" style="font-weight:bold; margin-bottom:15px;"></p>
-<div id="q-opts"></div>
-<p id="q-fb" style="margin-top:15px; font-weight:bold; text-align:center; height:1.5em;"></p>
-</div>
-</section>
+    <section class="card tilt-left">
+        <div class="card-corner-tr"></div>
+        <div class="card-corner-bl"></div>
+        <h2>About</h2>
+        <p>I make silly little games while I pursue my silly little dreams. I've been learning Godot since late 2024.</p>
+    </section>
+
+    <section class="card tilt-right">
+        <div class="card-corner-tr"></div>
+        <div class="card-corner-bl"></div>
+        <div class="blog-post">
+            <p class="blog-date">Feb 10, 2026</p>
+            <p>Lowkey wanna do CFAC 4 but am already doing a few jams... should I still do it??? DC: That.ham</p>
+            <div class="blog-tags">
+                <span class="tag">#CFAC</span>
+                <span class="tag">#Gamedev</span>
+                <span class="tag">#Jams</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="card tilt-left">
+        <div class="card-corner-tr"></div>
+        <div class="card-corner-bl"></div>
+        <h2>Accomplishments</h2>
+        <ul class="accomplishments">
+            <li>🥇 <strong>1st Place</strong> – <a href="https://itch.io/jam/micro-jam-050" target="_blank">Micro Jam 050</a></li>
+            <li>🥉 <strong>3rd Place</strong> – <a href="https://itch.io/jam/one-more-run-iii" target="_blank">One More Run III</a></li>
+            <li>🏅 <strong>4th Place</strong> – <a href="https://itch.io/jam/micro-jam-052" target="_blank">Micro Jam 052</a></li>
+            <li>🏅 <strong>4th Place</strong> – <a href="https://itch.io/jam/-chili-code-jam-4/results" target="_blank">Chili Code Jam #4</a></li>
+        </ul>
+    </section>
+
+    <section class="card tilt-right">
+        <div class="card-corner-tr"></div>
+        <div class="card-corner-bl"></div>
+        <h2>Jams I Host</h2>
+        <div class="jam-content">
+            <h3>The Ham Jam #1</h3>
+            <p>A community-focused game jam I host!</p>
+            <a class="pixel-btn accent" href="https://itch.io/jam/theham-jam-1" target="_blank" style="margin-top:10px;">View Jam on itch.io →</a>
+        </div>
+    </section>
+
+    <section class="card tilt-left">
+        <div class="card-corner-tr"></div>
+        <div class="card-corner-bl"></div>
+        <h2>Games & Links</h2>
+        <p>Ready to see everything? Browse my full library of games on itch.</p>
+        <div class="btn-group">
+            <a href="https://thatham.itch.io/" class="pixel-btn">View All My Games</a>
+            <a href="https://discord.gg/dkAHTQYc3A" class="pixel-btn">Discord Server</a>
+        </div>
+    </section>
+
+    <section class="card tilt-right" id="quiz-card">
+        <div class="card-corner-tr"></div>
+        <div class="card-corner-bl"></div>
+        <h2>Ham Quiz</h2>
+        <div class="prog-wrap" style="border:3px solid var(--border); background:var(--border); height:12px; margin:15px 0;">
+            <div class="prog-bar" id="p-bar" style="height: 100%; width: 0%; background: var(--accent); transition: width 0.5s ease-out;"></div>
+        </div>
+        <div id="quiz-box">
+            <p id="q-txt" style="font-weight:bold; margin-bottom:15px;"></p>
+            <div id="q-opts"></div>
+            <p id="q-fb" style="margin-top:15px; font-weight:bold; text-align:center; height:1.5em;"></p>
+        </div>
+    </section>
 </main>
 
 <!-- Ham's Favorite Palette Sidebar -->
@@ -819,12 +825,16 @@ grid.style.transform = `translate(${x}px, ${y}px)`;
 
 // Staggered Reveal Animation & Quiz Init
 window.addEventListener('DOMContentLoaded', () => {
-cards.forEach((card, index) => {
-setTimeout(() => {
-card.classList.add('reveal');
-}, 150 * (index + 1));
-});
-initQuiz();
+  
+    const allCards = document.querySelectorAll('.card');
+    
+    allCards.forEach((card, index) => {
+        setTimeout(() => {
+            card.classList.add('reveal');
+        }, 150 * (index + 1));
+    });
+    
+    initQuiz();
 });
 
 function closeCard(id) {
