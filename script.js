@@ -187,7 +187,7 @@ window.addEventListener('DOMContentLoaded', () => {
 // --- QUIZ ENGINE ---
 const questions = [
     { q: "What engine does Ham use?", o: ["Unity", "Godot", "Unreal"], a: 1 },
-    { q: "When did Ham start Godot?", o: ["Late 2024", "2022", "2025"], a: 0 },
+    { q: "When did Ham start Godot?", o: ["Late 2025", "2023", "2026"], a: 0 },
     { q: "Ham's best jam rank?", o: ["Top 10", "4th Place", "1st Place"], a: 2 },
     { q: "What is Ham's favorite palette?", o: ["Pear36", "ENDESGA 32", "Sweetie 16"], a: 0 },
     { q: "Which jam did Ham win 1st place?", o: ["Chili Code Jam", "Micro Jam 050", "One More Run III"], a: 1 },
