@@ -1,3 +1,11 @@
+@font-face {
+    font-family: 'monogram';
+    src: url('assets/monogram.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --bg: #f0f0f5;
     --text: #1a1a24;
@@ -23,18 +31,22 @@ body.dark {
     --glow: rgba(129, 140, 248, 0.2);
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; font-size: 20px; }
 
 ::selection {
     background: var(--primary);
     color: white;
 }
 
-* {
+*,
+button,
+input,
+select,
+textarea {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Pixelify Sans', monospace !important;
+    font-family: 'monogram', monospace !important;
 }
 
 body {
@@ -444,7 +456,7 @@ h2::after {
 }
 
 .tagline.typing {
-    animation: typewriter 1.5s steps(28) 0.5s forwards, blink-caret 0.6s step-end infinite;
+    animation: typewriter 1.5s steps(32) 0.5s forwards, blink-caret 0.6s step-end infinite;
 }
 
 .tagline.done {
@@ -453,7 +465,7 @@ h2::after {
 
 @keyframes typewriter {
     from { width: 0; }
-    to { width: 28ch; }
+    to { width: 32ch; }
 }
 
 @keyframes blink-caret {
@@ -548,6 +560,19 @@ h2::after {
 }
 
 .palette-link:hover span { color: var(--primary); }
+
+/* ---------- QUIZ ---------- */
+.quiz-option {
+    font-size: 1.3rem;
+}
+
+#q-txt {
+    font-size: 1.3rem;
+}
+
+#q-fb {
+    font-size: 1.2rem;
+}
 
 /* ---------- QUIZ ANIMATIONS ---------- */
 @keyframes bounce {

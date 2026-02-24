@@ -303,7 +303,7 @@ updateToggleLabel();
 // --- TICKER ---
 (function() {
     const track = document.getElementById('ticker-track');
-    const staticItems = ['ham // gamedev', 'godot enthusiast', 'check out my games on itch.io'];
+    const staticItems = ['ham.software', 'godot enthusiast', 'check out my games on itch.io'];
 
     function makeSegmentHTML(id) {
         const parts = [
