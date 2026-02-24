@@ -195,7 +195,7 @@ const questions = [
     { q: "What is the name of Ham's game jam?", o: ["The Ham Jam", "Pixel Pork Jam", "Game & Ham"], a: 0 },
     { q: "Which game has a winter theme?", o: ["bilunar", "Sky High", "FROSTBOUND"], a: 2 },
     { q: "Where can you find Ham's games?", o: ["Steam", "itch.io", "Epic Games"], a: 1 },
-    { q: "How many 3rd place finishes does Ham have?", o: ["1", "2", "3"], a: 1 }
+    { q: "How many 3rd place finishes does Ham have?", o: ["4", "2", "3"], a: 1 }
 ];
 
 let qIdx = 0;
