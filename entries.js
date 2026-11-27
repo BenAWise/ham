@@ -22,8 +22,17 @@ const ENTRIES = [
     {
         date: "2026-11-27",
         title: "first entry",
-        text: `hello world.`
+        text: `hello world`,
+    },
 
+    {
+        date: "2026-11-27",
+        title: "roguelike prototype",
+        text: `today i worked on this new game prototype. it's in
+        its bare phases but so far i have basic slashing and dashing working,
+        my next step is to make everything feel good before moving on to prototyping
+        combat`,
+        image: "media/rough_draft_nov_28.png",
     },
 
 ];
