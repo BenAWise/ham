@@ -14,10 +14,7 @@ html { scrollbar-width: none; color-scheme: dark; }
 html::-webkit-scrollbar { display: none; }
 
 body {
-    background-color: var(--bg);
-    background-image: radial-gradient(rgba(255, 240, 220, 0.05) 1px, transparent 1px);
-    background-size: 22px 22px;
-    background-attachment: fixed;
+    background: var(--bg);
     color: var(--text);
     font: 20px/1.6 var(--font);
     max-width: 680px;
