@@ -15,10 +15,7 @@ function make(tag, className, text) {
 }
 
 function buildEntry(e) {
-    const article = make("article", "entry");
-
-    const time = make("time", "", formatDate(e.date));
-    time.dateTime = e.date;
+    const article = make("article", "entry reveal");
 
     const body = make("div", "body");
     if (e.title) body.appendChild(make("h2", "", e.title));
@@ -44,7 +41,10 @@ function buildEntry(e) {
         body.appendChild(vid);
     }
 
-    article.append(time, body);
+    const time = make("time", "", formatDate(e.date));
+    time.dateTime = e.date;
+
+    article.append(body, time); // date sits under the entry
     return article;
 }
 
@@ -67,4 +67,4 @@ const observer = new IntersectionObserver(hits => {
     });
 }, { threshold: 0.1 });
 
-list.querySelectorAll(".entry").forEach(el => observer.observe(el));
+document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
