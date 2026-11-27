@@ -22,7 +22,7 @@ const ENTRIES = [
     {
         date: "2026-11-27",
         title: "first entry",
-        text: `hello world.
+        text: `hello world.`
 
     },
 
