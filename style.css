@@ -1,8 +1,8 @@
 :root {
-    --bg: #f4ecdd;
-    --text: #2b241d;
-    --muted: #978a78;
-    --line: #e0d4bf;
+    --bg: #1f1d1b;      /* soft warm charcoal, not pure black */
+    --text: #efe9e0;    /* soft white */
+    --muted: #8f877c;
+    --line: #34302b;
     --font: "Source Serif 4", Georgia, "Times New Roman", serif;   /* body */
     --display: "Fraunces", Georgia, serif;                          /* name + entry titles */
 }
@@ -10,12 +10,12 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* hidden scrollbar — delete these two rules to bring it back */
-html { scrollbar-width: none; }
+html { scrollbar-width: none; color-scheme: dark; }
 html::-webkit-scrollbar { display: none; }
 
 body {
     background-color: var(--bg);
-    background-image: radial-gradient(rgba(110, 80, 40, 0.09) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(255, 240, 220, 0.05) 1px, transparent 1px);
     background-size: 22px 22px;
     background-attachment: fixed;
     color: var(--text);
