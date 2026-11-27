@@ -34,6 +34,14 @@ a:hover { text-decoration-color: var(--text); }
 /* ---------- intro ---------- */
 .intro { margin-bottom: 96px; }
 
+.icon {
+    display: block;
+    width: 64px;              /* use an exact multiple of your icon's real size */
+    height: auto;
+    margin-bottom: 28px;
+    image-rendering: pixelated; /* keeps pixel art crisp — delete if it's not pixel art */
+}
+
 h1 {
     font-family: var(--display);
     font-size: clamp(2.8rem, 9vw, 4rem);
