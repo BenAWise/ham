@@ -14,6 +14,28 @@ function make(tag, className, text) {
     return el;
 }
 
+// ---------- full-size image view (one shared overlay) ----------
+const lightbox = make("div", "lightbox");
+const lightboxImg = make("img");
+lightbox.appendChild(lightboxImg);
+document.body.appendChild(lightbox);
+
+function openLightbox(src, alt) {
+    lightboxImg.src = src;
+    lightboxImg.alt = alt;
+    lightbox.classList.add("open");
+    document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+    lightbox.classList.remove("open");
+    document.body.style.overflow = "";
+}
+
+lightbox.addEventListener("click", closeLightbox);
+document.addEventListener("keydown", ev => { if (ev.key === "Escape") closeLightbox(); });
+
+// ---------- entries ----------
 function buildEntry(e) {
     const article = make("article", "entry reveal");
 
@@ -24,12 +46,17 @@ function buildEntry(e) {
     });
 
     if (e.image) {
+        const frame = make("figure", "frame");
+        const crop = make("div", "crop");
         const img = make("img");
         img.src = e.image;
         img.alt = e.title || "";
         img.loading = "lazy";
         img.decoding = "async";
-        body.appendChild(img);
+        crop.appendChild(img);
+        frame.appendChild(crop);
+        frame.addEventListener("click", () => openLightbox(e.image, img.alt));
+        body.appendChild(frame);
     }
 
     if (e.video) {
