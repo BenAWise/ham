@@ -24,7 +24,6 @@ const ENTRIES = [
         title: "first entry",
         text: `hello world.
 
-blank line = new paragraph.`,
     },
 
 ];
