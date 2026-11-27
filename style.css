@@ -3,6 +3,7 @@
     --text: #efe9e0;    /* soft white */
     --muted: #8f877c;
     --line: #34302b;
+    --cream: #f4ecdd;   /* image frames */
     --font: "Source Serif 4", Georgia, "Times New Roman", serif;   /* body */
     --display: "Fraunces", Georgia, serif;                          /* name + entry titles */
 }
@@ -75,15 +76,63 @@ h1 {
 }
 .body p + p { margin-top: 1em; }
 
-.body img,
+/* ---------- image card ---------- */
+.frame {
+    margin-top: 24px;
+    padding: 4px;
+    background: var(--cream);
+    cursor: zoom-in;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.crop {
+    overflow: hidden;          /* hides the zoomed-in edges */
+    background: #e0d4bf;
+}
+
+.crop img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: scale(1.12);    /* how much is cropped — 1 = no crop */
+    transition: transform .5s cubic-bezier(.2, .7, .2, 1);
+}
+.frame:hover .crop img { transform: scale(1.06); }
+
 .body video {
     display: block;
     width: 100%;
     height: auto;
     margin-top: 24px;
-    border-radius: 2px;
     background: var(--line);
 }
+
+/* ---------- full-size view ---------- */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(15, 14, 13, 0.92);
+    cursor: zoom-out;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease;
+}
+.lightbox.open { opacity: 1; pointer-events: auto; }
+
+.lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    padding: 4px;
+    background: var(--cream);
+    transform: scale(.96);
+    transition: transform .25s ease;
+}
+.lightbox.open img { transform: none; }
 
 footer {
     font-size: 0.85rem;
