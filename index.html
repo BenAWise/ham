@@ -1,157 +1,28 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='32' font-size='32'>🍖</text></svg>">
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ham.exe</title>
+<title>ham</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
+<body>
 
-<body class="dark">
-<div class="page-curtain" id="curtain"></div>
-<canvas id="xo-bg"></canvas>
-<div class="scanlines"></div>
-<header class="hero">
-    <div class="title-row">
-        <h1>ham.exe</h1>
-        <div>
-            <button type="button" class="pixel-switch" id="theme-toggle">
-                <span class="sw-label" id="sw-text">DARK</span>
-            </button>
-        </div>
-    </div>
-    <p class="tagline">student · gamedev · godot user</p>
-    <div class="links">
-        <a href="https://thatham.itch.io/" target="_blank" class="hero-link itch">[ itch.io ]</a>
-        <a href="https://discord.com/users/that.ham" target="_blank" class="hero-link disc">[ discord ]</a>
-    </div>
+<header class="intro">
+    <h1>hi im ham</h1>
+    <p class="lede">this is a space for me to write down my unfiltered thoughts for the world to see.</p>
 </header>
 
-<main>
-    <section class="card tilt-left">
-        <div class="card-corner-tr"></div>
-        <div class="card-corner-bl"></div>
-        <h2>About Ham</h2>
-        <p style="margin-bottom: 20px; font-size: 1.1rem; line-height: 1.6;">I make silly little games while I pursue my silly little dreams. I've been learning Godot since late 2025.</p>
-        <h3 style="color: var(--accent); margin-bottom: 12px; letter-spacing: 1px;">// Hobbies</h3>
-        <ul>
-            <li>Wrestling</li>
-            <li>Football/Soccer</li>
-            <li>Basketball</li>
-            <li>Gamedev</li>
-            <li>Gaming</li>
-        </ul>
-        <a class="palette-link" href="https://lospec.com/palette-list/pear36" target="_blank">
-            <img src="assets/palette.png" alt="Pear36 Palette">
-            <span>Favorite Palette → Pear36 on Lospec</span>
-        </a>
-    </section>
+<div class="log-head">log</div>
 
-    <section class="card tilt-right">
-        <div class="card-corner-tr"></div>
-        <div class="card-corner-bl"></div>
-        <h2>Quote of the Day</h2>
-        <div class="quote-block">
-            <p class="quote-text" id="qotd-text"></p>
-            <p class="quote-author" id="qotd-author"></p>
-        </div>
-    </section>
+<main id="entries"></main>
 
-    <section class="card tilt-left">
-        <div class="card-corner-tr"></div>
-        <div class="card-corner-bl"></div>
-        <h2>Accomplishments</h2>
-        <ul class="accomplishments">
-            <li>🥇 <strong>1st Place</strong> · <a href="https://itch.io/jam/micro-jam-050" target="_blank">Micro Jam 050</a></li>
-            <li>🥇 <strong>1st Place</strong> · <a href="https://itch.io/jam/one-more-run-iv" target="_blank">One More Run IV</a></li>
-            <li>🥈 <strong>2nd Place</strong> · <a href="https://itch.io/jam/cfac-x-micro-5" target="_blank">Code For A Cause #5</a></li>
-            <li>🥉 <strong>3rd Place</strong> · <a href="https://itch.io/jam/one-more-run-iii" target="_blank">One More Run III</a></li>
-            <li>🥉 <strong>3rd Place</strong> · <a href="https://itch.io/jam/conduit-festival-game-jam/rate/4290093" target="_blank">Conduit Festival Game Jam</a></li>
-            <li>🏅 <strong>4th Place</strong> · <a href="https://itch.io/jam/micro-jam-052" target="_blank">Micro Jam 052</a></li>
-            <li>🏅 <strong>4th Place</strong> · <a href="https://itch.io/jam/-chili-code-jam-4/results" target="_blank">Chili Code Jam #4</a></li>
-        </ul>
-    </section>
+<footer>end of log</footer>
 
-    <section class="card tilt-right">
-        <div class="card-corner-tr"></div>
-        <div class="card-corner-bl"></div>
-        <h2>Jams I Host</h2>
-        <div class="jam-content">
-            <h3 style="margin-bottom: 8px;">The Ham Jam #1, #2</h3>
-            <p style="margin-bottom: 14px;">A community-focused game jam I host!</p>
-            <a class="pixel-btn accent" href="https://itch.io/jam/ham-jam-2" target="_blank">View Jam on itch.io →</a>
-
-            <h3 style="margin-top: 32px; margin-bottom: 8px;">Cookie Jam #2, #3, #4</h3>
-            <p style="margin-bottom: 14px;">A fun low stakes game jam that I co-host with my friend Tuvo!</p>
-            <a class="pixel-btn accent" href="https://itch.io/jam/cookie-jam-4" target="_blank">View Jam on itch.io →</a>
-        </div>
-    </section>
-
-    <section class="card tilt-left">
-        <div class="card-corner-tr"></div>
-        <div class="card-corner-bl"></div>
-        <h2>My Games</h2>
-        <div class="games-grid">
-            <a href="https://thatham.itch.io/ricoshield" target="_blank" class="game-link">
-                RICOSHIELD <span class="play-arrow">→</span>
-            </a>
-            <a href="https://thatham.itch.io/bloodball" target="_blank" class="game-link">
-                BLOODBALL <span class="play-arrow">→</span>
-            </a>
-            <a href="https://thatham.itch.io/shiftshape" target="_blank" class="game-link">
-                shiftshape <span class="play-arrow">→</span>
-            </a>
-            <a href="https://thatham.itch.io/bilunar" target="_blank" class="game-link">
-                bilunar <span class="play-arrow">→</span>
-            </a>
-            <a href="https://thatham.itch.io/stump-n-shoot" target="_blank" class="game-link">
-                Stump N' Shoot <span class="play-arrow">→</span>
-            </a>
-            <a href="https://thatham.itch.io/frostbound" target="_blank" class="game-link">
-                FROSTBOUND <span class="play-arrow">→</span>
-            </a>
-            <a href="https://thatham.itch.io/revolve" target="_blank" class="game-link">
-                R.E.V.O.L.V.E <span class="play-arrow">→</span>
-            </a>
-            <a href="https://thatham.itch.io/sky-high" target="_blank" class="game-link">
-                Sky High <span class="play-arrow">→</span>
-            </a>
-            <a href="https://thatham.itch.io/alien-invaders" target="_blank" class="game-link">
-                Alien Invaders <span class="play-arrow">→</span>
-            </a>
-        </div>
-        <div class="btn-group">
-            <a href="https://thatham.itch.io/" class="pixel-btn" target="_blank">View All on itch.io</a>
-            <a href="https://discord.gg/dkAHTQYc3A" class="pixel-btn" target="_blank">Discord Server</a>
-        </div>
-    </section>
-
-    <section class="card tilt-right" id="quiz-card">
-        <div class="card-corner-tr"></div>
-        <div class="card-corner-bl"></div>
-        <h2>Ham Quiz</h2>
-        <div class="prog-wrap" style="border:3px solid var(--border); background:var(--border); height:12px; margin:15px 0;">
-            <div class="prog-bar" id="p-bar" style="height: 100%; width: 0%; background: var(--accent); transition: width 0.5s ease-out;"></div>
-        </div>
-        <div id="quiz-box">
-            <p id="q-txt" style="font-weight:bold; margin-bottom:15px;"></p>
-            <div id="q-opts"></div>
-            <p id="q-fb" style="margin-top:15px; font-weight:bold; text-align:center; height:1.5em;"></p>
-        </div>
-    </section>
-</main>
-
-<footer>
-<p>© that-ham // v4.0</p>
-</footer>
-
-<div class="ticker-bar">
-    <div class="ticker-track" id="ticker-track"></div>
-</div>
-
+<script src="entries.js"></script>
 <script src="script.js"></script>
 </body>
-
 </html>
