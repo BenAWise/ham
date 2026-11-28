@@ -34,5 +34,15 @@ const ENTRIES = [
         combat`,
         image: "media/rough_draft_nov_28.png",
     },
+    {
+        date: "2026-11-28",
+        title: "what's the order???",
+        text: `honestly there is a lot to do when starting a new project, that's a given.
+        but i want to know in what order to do things, you have bosses, enemies, weapons, upgrades.
+        you also have to worry about getting the movement right, its a lot of work. my question is:
+        in what order should that work be done? starting with movement is a pretty safe bet and then
+        getting your first enemy type in. but after that do you start working on the procedural generation,
+        the upgrade system? it's a complex ordeal because order matters!`,
+    },
 
 ];
